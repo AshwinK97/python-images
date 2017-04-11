@@ -12,4 +12,4 @@ plt.ylabel('voltage (mV)')
 plt.title('Sin Graph')
 plt.grid(True)
 plt.savefig("test.png")
-plt.show() #this might not work on windows
+#plt.show() #this does not work on bash for win10
