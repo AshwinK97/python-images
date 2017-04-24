@@ -1,2 +1,3 @@
 # ImageProcessing
-Learning to process image data
+
+Basic program that manipulates image pixel data
