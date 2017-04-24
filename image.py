@@ -37,5 +37,5 @@ def swapCol(matrix, col1, col2):
 img = Image.open("face.jpg")
 key = 1234
 matrix = np.array(img)
-img = encrypt(matrix, key)
+img = destroy(matrix, key)
 img.show()
