@@ -1,19 +1,41 @@
-from PIL import Image
+from PIL import Image, ImageFilter
 import numpy as np
+import math
+from random import randint
+np.set_printoptions(threshold='nan') # prints np arrays untruncated
 
-key = 5;
+# completely destroys image's data, no chance at recovery
+def destroy(matrix, key):
+    for i in range(key):
+        matrix = swapRow(matrix, randint(0, matrix.shape[0]-10), randint(0, matrix.shape[0]-10))
+    for i in range(key):
+        matrix = swapCol(matrix, randint(0, matrix.shape[1]-10), randint(0, matrix.shape[1]-10))
+    return Image.fromarray(matrix, 'RGB')
+
+def encrypt(matrix, key):
+    for i in range (key):
+        for j in range(matrix.shape[0]-10):
+            matrix = swapRow(matrix, j, (j+key)%(matrix.shape[0]-10))
+    return Image.fromarray(matrix, 'RGB')
+
+#def decrypt():
+    # decrypt the image
+
+def swapRow(matrix, row1, row2):
+    temp = matrix[row1,:]
+    matrix[row1,:] = matrix[row2,:]
+    matrix[row2,:] = temp
+    return matrix
+
+def swapCol(matrix, col1, col2):
+    temp = matrix[:,col1]
+    matrix[:,col1] = matrix[:,col2]
+    matrix[:,col2] = temp
+    return matrix
+
+
 img = Image.open("face.jpg")
-pixels = img.load()
-
-
-for i in range(img.size[0]):
-    for j in range(img.size[1]):
-        r, g, b = pixels[i, j]
-        if i % 2 == 0:
-            pixels[i, j] = (r*key, g*key, b*key)
-        else:
-            pixels[i, j] = (r/key, g/key, b/key)
-        # pixels[i, j] = (i, j, 100)
-
-img.save("image_out.jpg")
-
+key = 1234
+matrix = np.array(img)
+img = encrypt(matrix, key)
+img.show()
